@@ -38,11 +38,15 @@
   },
   "type": "module",
   "dependencies": {
+    "@lucia-auth/adapter-mysql": "^3.0.2",
     "@planetscale/database": "^1.16.0",
+    "arctic": "^1.5.0",
     "bits-ui": "^0.21.1",
     "clsx": "^2.1.0",
     "drizzle-orm": "^0.30.6",
+    "lucia": "^3.1.1",
     "mysql2": "^3.9.3",
+    "oslo": "^1.2.0",
     "tailwind-merge": "^2.2.2",
     "tailwind-variants": "^0.2.1"
   }
