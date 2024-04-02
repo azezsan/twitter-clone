@@ -2,30 +2,31 @@ import { relations } from 'drizzle-orm';
 import { mysqlTable, serial, varchar, datetime, bigint, primaryKey } from 'drizzle-orm/mysql-core';
 
 export const users = mysqlTable('users', {
-    id: serial('id').primaryKey()
+    id: serial('id').primaryKey(),
+    username: varchar("username", { length: 255 }).notNull()
 })
 
 export const usersRelations = relations(users, ({ one, many }) => ({
-    user_session: one(user_session),
-    user_accounts: many(user_accounts)
+    user_session: one(userSession),
+    user_accounts: many(userAccounts)
 }))
 
 
-export const user_session = mysqlTable('user_session', {
+export const userSession = mysqlTable('user_session', {
     id: varchar('id', { length: 255 }).primaryKey(),
     expiresAt: datetime('expires_at').notNull(),
     userId: bigint('user_id', { mode: 'number' }).notNull()
 })
 
-export const user_sessionRelations = relations(user_session, ({ one }) => ({
+export const userSessionRelations = relations(userSession, ({ one }) => ({
     user: one(users, {
-        fields: [user_session.userId],
+        fields: [userSession.userId],
         references: [users.id]
     })
 }))
 
 
-export const user_accounts = mysqlTable('user_accounts', {
+export const userAccounts = mysqlTable('user_accounts', {
     providerId: varchar('provider_id', { length: 255 }).notNull(),
     providerUserId: varchar('provider_user_id', { length: 255 }).notNull(),
     userId: bigint('user_id', { mode: 'number' }).notNull()
@@ -35,9 +36,9 @@ export const user_accounts = mysqlTable('user_accounts', {
     }
 })
 
-export const user_accountsRelations = relations(user_accounts, ({ one }) => ({
+export const userAccountsRelations = relations(userAccounts, ({ one }) => ({
     user: one(users, {
-        fields: [user_accounts.userId],
+        fields: [userAccounts.userId],
         references: [users.id]
     })
 }))
