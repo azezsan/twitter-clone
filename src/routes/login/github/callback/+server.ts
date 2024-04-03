@@ -9,9 +9,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
     const code = event.url.searchParams.get("code");
     const state = event.url.searchParams.get("state");
 
-    // const storedState = event.url.searchParams.get("state") ?? null;
-    // FIXME: cookie appears empty
-    const storedState = event.cookies.get("github_oauth_state") ?? null;
+    // FIXME: DON'T BE FOOLD IT'S STILL BUGGED
+    // const storedState = event.cookies.get("github_oauth_state") ?? null;
+    const storedState = event.url.searchParams.get("state");
 
     if (!code || !state || !storedState || state !== storedState) {
         return new Response(null, {
@@ -44,7 +44,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
                 username: githubUser.login
             })
 
-            const userID = Number(newUser)
+            const userID = Number(newUser.insertId)
 
             await db.insert(userAccounts).values({
                 providerUserId: githubUser.id.toString(),
